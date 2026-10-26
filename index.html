@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>JHS Portal | School Management</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0b1020;
+      --panel: #121a31;
+      --cyan: #69e5ff;
+      --violet: #a78bfa;
+      --text: #f5f7ff;
+      --muted: #a3aecb;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 12% 15%, #283b72 0, transparent 38%),
+        radial-gradient(ellipse at 90% 90%, #402566 0, transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .glow {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .23;
+      pointer-events: none;
+      animation: glowMove 9s ease-in-out infinite alternate;
+    }
+
+    .glow-a {
+      top: -100px;
+      left: -70px;
+      background: #557aff;
+    }
+
+    .glow-b {
+      right: -90px;
+      bottom: -100px;
+      background: #a04cff;
+      animation-delay: -4s;
+    }
+
+    @keyframes glowMove {
+      to { transform: translate(50px, 40px) scale(1.2); }
+    }
+
+    .portal {
+      width: min(960px, 100%);
+      min-height: 580px;
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #ffffff20;
+      border-radius: 26px;
+      background: #11182c;
+      box-shadow: 0 30px 90px #0008;
+    }
+
+    .showcase {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 35px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #192c55, #25204c);
+    }
+
+    .brand {
+      position: absolute;
+      top: 25px;
+      left: 26px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      color: #11182e;
+      font-size: 21px;
+    }
+
+    .book-scene {
+      position: relative;
+      width: 190px;
+      height: 180px;
+      display: grid;
+      place-items: center;
+      perspective: 700px;
+      margin-bottom: 24px;
+    }
+
+    .book {
+      position: relative;
+      width: 125px;
+      height: 96px;
+      transform-style: preserve-3d;
+      animation: floatBook 4s ease-in-out infinite;
+    }
+
+    .book-cover {
+      position: absolute;
+      inset: 0;
+      border: 2px solid #ffffff99;
+      border-radius: 5px 12px 12px 5px;
+      background: linear-gradient(135deg, #75edff, #9282ff 65%, #c19aff);
+      box-shadow: 12px 18px 30px #0005;
+      transform: rotateY(-12deg) rotateZ(-5deg);
+      transform-origin: left center;
+    }
+
+    .book-cover::before {
+      content: "JHS";
+      position: absolute;
+      top: 23px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: #172044;
+    }
+
+    .book-cover::after {
+      content: "LEARN • GROW";
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 8px;
+      font-weight: 800;
+      color: #172044;
+    }
+
+    .book-pages {
+      position: absolute;
+      inset: 4px 3px 3px 10px;
+      border-radius: 3px 8px 8px 3px;
+      background: repeating-linear-gradient(
+        to bottom,
+        #fff 0 7px,
+        #dbe5ff 8px 9px
+      );
+      transform: translateZ(-5px);
+      transform-origin: left center;
+      animation: turnPages 3s ease-in-out infinite;
+    }
+
+    .orbit {
+      position: absolute;
+      width: 170px;
+      height: 70px;
+      border: 1px solid #76eaff70;
+      border-radius: 50%;
+      transform: rotateX(65deg) rotateZ(-20deg);
+    }
+
+    .spark {
+      position: absolute;
+      color: var(--cyan);
+      font-size: 22px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    .spark-a { top: 10px; right: 15px; }
+    .spark-b { bottom: 20px; left: 12px; animation-delay: -.8s; }
+
+    @keyframes floatBook {
+      0%, 100% { transform: translateY(0) rotateZ(-3deg) rotateY(-7deg); }
+      50% { transform: translateY(-13px) rotateZ(3deg) rotateY(8deg); }
+    }
+
+    @keyframes turnPages {
+      0%, 100% { transform: translateZ(-5px) rotateY(-8deg); }
+      50% { transform: translateZ(-5px) rotateY(-30deg); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: .4; transform: scale(.8); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .showcase h2 {
+      font-size: clamp(25px, 3vw, 34px);
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .showcase h2 span {
+      color: var(--cyan);
+    }
+
+    .showcase p {
+      max-width: 290px;
+      margin-top: 14px;
+      text-align: center;
+      line-height: 1.7;
+      color: #c1cceb;
+      font-size: 14px;
+    }
+
+    .form-area {
+      position: relative;
+      min-width: 0;
+      min-height: 580px;
+      overflow: hidden;
+      background: #10172a;
+    }
+
+    .form {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(26px, 5vw, 55px);
+      transition: opacity .4s ease,
+                  transform .65s cubic-bezier(.2,.8,.2,1),
+                  visibility .4s;
+    }
+
+    .login {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .register {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(45px);
+    }
+
+    .portal.active .login {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-45px);
+    }
+
+    .portal.active .register {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+      transition-delay: .1s;
+    }
+
+    .eyebrow {
+      margin-bottom: 12px;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 36px);
+      letter-spacing: -1px;
+    }
+
+    .description {
+      margin: 10px 0 26px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      color: #dce5ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #303a5c;
+      border-radius: 10px;
+      outline: none;
+      background: #171f36;
+      color: white;
+      font-size: 14px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input::placeholder {
+      color: #7e8bac;
+    }
+
+    input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px #69e5ff18;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 7px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(100deg, var(--cyan), #a9a0ff);
+      color: #11182d;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+
+    .submit:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .switch {
+      margin-top: 23px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .switch a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .status {
+      min-height: 18px;
+      margin-top: 12px;
+      color: var(--cyan);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 12px; }
+
+      .portal {
+        max-width: 430px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 245px 515px;
+        border-radius: 20px;
+      }
+
+      .showcase { padding: 20px; }
+
+      .brand {
+        top: 15px;
+        left: 17px;
+      }
+
+      .book-scene {
+        position: absolute;
+        top: 42px;
+        right: 4px;
+        transform: scale(.7);
+        margin: 0;
+      }
+
+      .showcase h2 {
+        align-self: flex-start;
+        margin-top: 100px;
+        font-size: 22px;
+        text-align: left;
+      }
+
+      .showcase p {
+        align-self: flex-start;
+        max-width: 230px;
+        margin-top: 6px;
+        font-size: 12px;
+        text-align: left;
+      }
+
+      .form-area { min-height: 515px; }
+      .form { padding: 27px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <main class="portal" id="portal">
+    <section class="showcase">
+      <div class="brand">
+        <span class="brand-icon">J</span>
+        <span>JHS PORTAL</span>
+      </div>
+
+      <div class="book-scene" aria-hidden="true">
+        <div class="orbit"></div>
+        <span class="spark spark-a">✦</span>
+        <span class="spark spark-b">✧</span>
+        <div class="book">
+          <div class="book-pages"></div>
+          <div class="book-cover"></div>
+        </div>
+      </div>
+
+      <h2>Education,<br><span>made simpler.</span></h2>
+      <p>Your school information and academic journey, together in one place.</p>
+    </section>
+
+    <section class="form-area">
+      <form class="form login" id="login-form">
+        <p class="eyebrow">Welcome back</p>
+        <h1>Sign in</h1>
+        <p class="description">Sign in to continue to your school portal.</p>
+
+        <div class="field">
+          <label for="login-email">Email address</label>
+          <input id="login-email" type="email"
+            placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password" required>
+        </div>
+
+        <button class="submit" type="submit">Sign in →</button>
+
+        <p class="switch">New to the portal?
+          <a href="#" id="show-register">Create an account</a>
+        </p>
+        <p class="status" id="login-status" role="status"></p>
+      </form>
+
+      <form class="form register" id="register-form">
+        <p class="eyebrow">Get started</p>
+        <h1>Create account</h1>
+        <p class="description">Register your details to get started.</p>
+
+        <div class="field">
+          <label for="register-name">Full name</label>
+          <input id="register-name" type="text"
+            placeholder="Your full name" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="register-email">Email address</label>
+          <input id="register-email" type="email"
+            placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="register-password">Create password</label>
+          <input id="register-password" type="password"
+            placeholder="At least 8 characters" minlength="8"
+            autocomplete="new-password" required>
+        </div>
+
+        <button class="submit" type="submit">Create account →</button>
+
+        <p class="switch">Already have an account?
+          <a href="#" id="show-login">Sign in</a>
+        </p>
+        <p class="status" id="register-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const portal = document.getElementById("portal");
+    const loginStatus = document.getElementById("login-status");
+    const registerStatus = document.getElementById("register-status");
+
+    document.getElementById("show-register").addEventListener("click", event => {
+      event.preventDefault();
+      portal.classList.add("active");
+      loginStatus.textContent = "";
+      registerStatus.textContent = "";
+    });
+
+    document.getElementById("show-login").addEventListener("click", event => {
+      event.preventDefault();
+      portal.classList.remove("active");
+      loginStatus.textContent = "";
+      registerStatus.textContent = "";
+    });
+
+    document.getElementById("login-form").addEventListener("submit", event => {
+      event.preventDefault();
+      loginStatus.textContent =
+        "Authentication is not connected yet. We will connect the secure login next.";
+    });
+
+    document.getElementById("register-form").addEventListener("submit", event => {
+      event.preventDefault();
+      registerStatus.textContent =
+        "Registration is not connected yet. We will connect the database next.";
+    });
+  </script>
+</body>
+</html>
