@@ -1,544 +1,319 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1020">
-  <title>JHS Portal | School Management</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #0b1020;
-      --panel: #121a31;
-      --cyan: #69e5ff;
-      --violet: #a78bfa;
-      --text: #f5f7ff;
-      --muted: #a3aecb;
-    }
-
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 22px;
-      overflow-x: hidden;
-      background:
-        radial-gradient(ellipse at 12% 15%, #283b72 0, transparent 38%),
-        radial-gradient(ellipse at 90% 90%, #402566 0, transparent 35%),
-        var(--bg);
-      color: var(--text);
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
-
-    .glow {
-      position: fixed;
-      width: 250px;
-      height: 250px;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: .23;
-      pointer-events: none;
-      animation: glowMove 9s ease-in-out infinite alternate;
-    }
-
-    .glow-a {
-      top: -100px;
-      left: -70px;
-      background: #557aff;
-    }
-
-    .glow-b {
-      right: -90px;
-      bottom: -100px;
-      background: #a04cff;
-      animation-delay: -4s;
-    }
-
-    @keyframes glowMove {
-      to { transform: translate(50px, 40px) scale(1.2); }
-    }
-
-    .portal {
-      width: min(960px, 100%);
-      min-height: 580px;
-      display: grid;
-      grid-template-columns: .95fr 1.05fr;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid #ffffff20;
-      border-radius: 26px;
-      background: #11182c;
-      box-shadow: 0 30px 90px #0008;
-    }
-
-    .showcase {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 35px;
-      overflow: hidden;
-      background: linear-gradient(145deg, #192c55, #25204c);
-    }
-
-    .brand {
-      position: absolute;
-      top: 25px;
-      left: 26px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: 2px;
-    }
-
-    .brand-icon {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--cyan), var(--violet));
-      color: #11182e;
-      font-size: 21px;
-    }
-
-    .book-scene {
-      position: relative;
-      width: 190px;
-      height: 180px;
-      display: grid;
-      place-items: center;
-      perspective: 700px;
-      margin-bottom: 24px;
-    }
-
-    .book {
-      position: relative;
-      width: 125px;
-      height: 96px;
-      transform-style: preserve-3d;
-      animation: floatBook 4s ease-in-out infinite;
-    }
-
-    .book-cover {
-      position: absolute;
-      inset: 0;
-      border: 2px solid #ffffff99;
-      border-radius: 5px 12px 12px 5px;
-      background: linear-gradient(135deg, #75edff, #9282ff 65%, #c19aff);
-      box-shadow: 12px 18px 30px #0005;
-      transform: rotateY(-12deg) rotateZ(-5deg);
-      transform-origin: left center;
-    }
-
-    .book-cover::before {
-      content: "JHS";
-      position: absolute;
-      top: 23px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      color: #172044;
-    }
-
-    .book-cover::after {
-      content: "LEARN • GROW";
-      position: absolute;
-      top: 56px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 8px;
-      font-weight: 800;
-      color: #172044;
-    }
-
-    .book-pages {
-      position: absolute;
-      inset: 4px 3px 3px 10px;
-      border-radius: 3px 8px 8px 3px;
-      background: repeating-linear-gradient(
-        to bottom,
-        #fff 0 7px,
-        #dbe5ff 8px 9px
-      );
-      transform: translateZ(-5px);
-      transform-origin: left center;
-      animation: turnPages 3s ease-in-out infinite;
-    }
-
-    .orbit {
-      position: absolute;
-      width: 170px;
-      height: 70px;
-      border: 1px solid #76eaff70;
-      border-radius: 50%;
-      transform: rotateX(65deg) rotateZ(-20deg);
-    }
-
-    .spark {
-      position: absolute;
-      color: var(--cyan);
-      font-size: 22px;
-      animation: sparkle 2s ease-in-out infinite;
-    }
-
-    .spark-a { top: 10px; right: 15px; }
-    .spark-b { bottom: 20px; left: 12px; animation-delay: -.8s; }
-
-    @keyframes floatBook {
-      0%, 100% { transform: translateY(0) rotateZ(-3deg) rotateY(-7deg); }
-      50% { transform: translateY(-13px) rotateZ(3deg) rotateY(8deg); }
-    }
-
-    @keyframes turnPages {
-      0%, 100% { transform: translateZ(-5px) rotateY(-8deg); }
-      50% { transform: translateZ(-5px) rotateY(-30deg); }
-    }
-
-    @keyframes sparkle {
-      0%, 100% { opacity: .4; transform: scale(.8); }
-      50% { opacity: 1; transform: scale(1.3); }
-    }
-
-    .showcase h2 {
-      font-size: clamp(25px, 3vw, 34px);
-      text-align: center;
-      line-height: 1.25;
-    }
-
-    .showcase h2 span {
-      color: var(--cyan);
-    }
-
-    .showcase p {
-      max-width: 290px;
-      margin-top: 14px;
-      text-align: center;
-      line-height: 1.7;
-      color: #c1cceb;
-      font-size: 14px;
-    }
-
-    .form-area {
-      position: relative;
-      min-width: 0;
-      min-height: 580px;
-      overflow: hidden;
-      background: #10172a;
-    }
-
-    .form {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(26px, 5vw, 55px);
-      transition: opacity .4s ease,
-                  transform .65s cubic-bezier(.2,.8,.2,1),
-                  visibility .4s;
-    }
-
-    .login {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-    }
-
-    .register {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(45px);
-    }
-
-    .portal.active .login {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(-45px);
-    }
-
-    .portal.active .register {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-      transition-delay: .1s;
-    }
-
-    .eyebrow {
-      margin-bottom: 12px;
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(28px, 4vw, 36px);
-      letter-spacing: -1px;
-    }
-
-    .description {
-      margin: 10px 0 26px;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    .field {
-      margin-bottom: 17px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 9px;
-      color: #dce5ff;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #303a5c;
-      border-radius: 10px;
-      outline: none;
-      background: #171f36;
-      color: white;
-      font-size: 14px;
-      transition: border-color .2s, box-shadow .2s;
-    }
-
-    input::placeholder {
-      color: #7e8bac;
-    }
-
-    input:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px #69e5ff18;
-    }
-
-    .submit {
-      width: 100%;
-      margin-top: 7px;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(100deg, var(--cyan), #a9a0ff);
-      color: #11182d;
-      font-size: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: transform .2s, filter .2s;
-    }
-
-    .submit:hover {
-      filter: brightness(1.1);
-      transform: translateY(-2px);
-    }
-
-    .switch {
-      margin-top: 23px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .switch a {
-      color: var(--cyan);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .status {
-      min-height: 18px;
-      margin-top: 12px;
-      color: var(--cyan);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 680px) {
-      body { padding: 12px; }
-
-      .portal {
-        max-width: 430px;
-        grid-template-columns: 1fr;
-        grid-template-rows: 245px 515px;
-        border-radius: 20px;
-      }
-
-      .showcase { padding: 20px; }
-
-      .brand {
-        top: 15px;
-        left: 17px;
-      }
-
-      .book-scene {
-        position: absolute;
-        top: 42px;
-        right: 4px;
-        transform: scale(.7);
-        margin: 0;
-      }
-
-      .showcase h2 {
-        align-self: flex-start;
-        margin-top: 100px;
-        font-size: 22px;
-        text-align: left;
-      }
-
-      .showcase p {
-        align-self: flex-start;
-        max-width: 230px;
-        margin-top: 6px;
-        font-size: 12px;
-        text-align: left;
-      }
-
-      .form-area { min-height: 515px; }
-      .form { padding: 27px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JHS School Management Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0b1020;--panel:rgba(255,255,255,.075);--line:rgba(255,255,255,.12);--text:#f5f7ff;--muted:#98a4bd;--blue:#5584ff;--purple:#9767ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 10% 5%,#202c58 0,transparent 42%),radial-gradient(ellipse at 90% 90%,#342052 0,transparent 35%),var(--bg);color:var(--text);font:15px Arial,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.glass{background:var(--panel);backdrop-filter:blur(22px);border:1px solid var(--line);box-shadow:0 12px 35px #0003}
+button,.btn{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(120deg,var(--blue),var(--purple));color:white;font-weight:700;transition:.25s}
+button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+input,select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:11px;background:#10172b;color:white;outline:none;margin-top:7px}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+label{display:block;font-size:13px;color:#c3cce0;margin-top:15px}
+h1,h2,h3,p{margin-top:0}
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:22px}
+.auth-card{width:min(100%,440px);padding:30px;border-radius:25px;animation:rise .65s ease}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:25px}
+.brand-mark{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,var(--blue),var(--purple));font-size:22px;font-weight:900}
+.brand small{display:block;color:var(--muted);margin-top:4px}
+.auth-card h1{font-size:27px;margin-bottom:8px}
+.auth-card .subtitle{color:var(--muted);line-height:1.5}
+.wide{width:100%;margin-top:20px}
+.switch{text-align:center;color:var(--muted);margin:20px 0 0}
+.link{background:none;color:#a9baff;padding:0;transform:none!important}
+.status{margin-top:15px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+#app{min-height:100vh;display:flex}
+.sidebar{width:265px;margin:16px;padding:22px 16px;border-radius:24px;display:flex;flex-direction:column;flex-shrink:0;min-height:calc(100vh - 32px)}
+.sidebar .brand{padding:0 8px;margin-bottom:28px}
+.menu-label{font-size:10px;letter-spacing:2px;color:#77839e;padding:0 12px;margin:15px 0 10px}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{display:flex;align-items:center;gap:12px;text-align:left;background:transparent;color:#aeb8ce;font-weight:500;padding:13px 14px;border:1px solid transparent}
+.nav button:hover,.nav button.active{background:rgba(255,255,255,.1);border-color:var(--line);color:white}
+.nav .ico{width:22px;text-align:center;font-size:17px}
+.logout{margin-top:auto!important;color:#ff9baf!important}
+.main{min-width:0;flex:1;padding:25px 25px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}
+.topbar h1{font-size:clamp(22px,3vw,30px);margin-bottom:6px}
+.profile{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:15px}
+.avatar{width:37px;height:37px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--purple));font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:20px}
+.stat,.section{padding:21px;border-radius:20px}
+.stat .stat-icon{width:42px;height:42px;display:grid;place-items:center;background:#668cff20;border-radius:13px;font-size:20px;margin-bottom:18px}
+.stat p{color:var(--muted);font-size:13px;margin-bottom:10px}
+.stat h2{font-size:28px;margin-bottom:0}
+.section{margin-bottom:20px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.section-head h2{font-size:18px;margin:0}
+.section-head p{font-size:12px;color:var(--muted);margin:6px 0 0}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.action-card{padding:18px;border:1px solid var(--line);border-radius:16px;background:#ffffff05}
+.action-card h3{font-size:15px;margin:10px 0}
+.action-card p{font-size:13px;line-height:1.5;color:var(--muted)}
+.action-card button{margin-top:6px}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{text-align:left;padding:14px 10px;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--muted);font-weight:500}
+.empty{padding:25px;text-align:center;color:var(--muted);line-height:1.7}
+.notice{padding:13px 15px;border-radius:12px;background:#668cff14;border:1px solid #668cff40;color:#c8d5ff;font-size:13px;line-height:1.6;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 14px}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){
+ #app{display:block}.sidebar{width:auto;min-height:0;margin:10px;padding:13px;border-radius:19px}
+ .sidebar .brand{margin-bottom:10px}.menu-label{display:none}.nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .nav button{flex-direction:column;gap:5px;padding:10px 4px;font-size:11px;text-align:center}
+ .nav .ico{font-size:18px}.logout{margin-top:8px!important}
+ .main{padding:15px 12px 28px}.topbar{align-items:flex-start}.profile{padding:6px;font-size:11px}
+ .profile .profile-details{display:none}.grid{gap:9px}.stat{padding:15px}.stat h2{font-size:23px}
+ .section{padding:16px}.cards{grid-template-columns:1fr}.auth-card{padding:23px}
+}
+</style>
 </head>
-
 <body>
-  <div class="glow glow-a"></div>
-  <div class="glow glow-b"></div>
 
-  <main class="portal" id="portal">
-    <section class="showcase">
-      <div class="brand">
-        <span class="brand-icon">J</span>
-        <span>JHS PORTAL</span>
-      </div>
-
-      <div class="book-scene" aria-hidden="true">
-        <div class="orbit"></div>
-        <span class="spark spark-a">✦</span>
-        <span class="spark spark-b">✧</span>
-        <div class="book">
-          <div class="book-pages"></div>
-          <div class="book-cover"></div>
-        </div>
-      </div>
-
-      <h2>Education,<br><span>made simpler.</span></h2>
-      <p>Your school information and academic journey, together in one place.</p>
-    </section>
-
-    <section class="form-area">
-      <form class="form login" id="login-form">
-        <p class="eyebrow">Welcome back</p>
-        <h1>Sign in</h1>
-        <p class="description">Sign in to continue to your school portal.</p>
-
-        <div class="field">
-          <label for="login-email">Email address</label>
-          <input id="login-email" type="email"
-            placeholder="you@example.com" autocomplete="email" required>
-        </div>
-
-        <div class="field">
-          <label for="login-password">Password</label>
-          <input id="login-password" type="password"
-            placeholder="Enter your password"
-            autocomplete="current-password" required>
-        </div>
-
-        <button class="submit" type="submit">Sign in →</button>
-
-        <p class="switch">New to the portal?
-          <a href="#" id="show-register">Create an account</a>
-        </p>
-        <p class="status" id="login-status" role="status"></p>
+<div id="authScreen" class="auth-wrap">
+  <div class="auth-card glass">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div><strong>JHS School Portal</strong><small>School management system</small></div>
+    </div>
+    <div id="loginForm">
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in with your authorised school staff account.</p>
+      <form id="signInForm">
+        <label>Email address<input id="loginEmail" type="email" autocomplete="username" required placeholder="you@school.com"></label>
+        <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Enter your password"></label>
+        <button class="wide" type="submit">Sign In →</button>
       </form>
-
-      <form class="form register" id="register-form">
-        <p class="eyebrow">Get started</p>
-        <h1>Create account</h1>
-        <p class="description">Register your details to get started.</p>
-
-        <div class="field">
-          <label for="register-name">Full name</label>
-          <input id="register-name" type="text"
-            placeholder="Your full name" autocomplete="name" required>
-        </div>
-
-        <div class="field">
-          <label for="register-email">Email address</label>
-          <input id="register-email" type="email"
-            placeholder="you@example.com" autocomplete="email" required>
-        </div>
-
-        <div class="field">
-          <label for="register-password">Create password</label>
-          <input id="register-password" type="password"
-            placeholder="At least 8 characters" minlength="8"
-            autocomplete="new-password" required>
-        </div>
-
-        <button class="submit" type="submit">Create account →</button>
-
-        <p class="switch">Already have an account?
-          <a href="#" id="show-login">Sign in</a>
-        </p>
-        <p class="status" id="register-status" role="status"></p>
+      <p class="switch">New staff account? <button class="link" id="showRegister">Register</button></p>
+    </div>
+    <div id="registerForm" class="hidden">
+      <h1>Create staff account</h1>
+      <p class="subtitle">Registration does not automatically grant staff or administrator privileges.</p>
+      <form id="signUpForm">
+        <label>Full name<input id="regName" required maxlength="100" placeholder="Your full name"></label>
+        <label>Email address<input id="regEmail" type="email" autocomplete="username" required placeholder="you@school.com"></label>
+        <label>Password<input id="regPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"></label>
+        <button class="wide" type="submit">Create Account</button>
       </form>
-    </section>
+      <p class="switch">Already registered? <button class="link" id="showLogin">Sign in</button></p>
+    </div>
+    <div id="authStatus" class="status" role="status"></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <aside class="sidebar glass">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div><strong>JHS Portal</strong><small id="sideRole">School Staff</small></div>
+    </div>
+    <p class="menu-label">MAIN MENU</p>
+    <nav class="nav">
+      <button class="active" data-page="home"><span class="ico">⌂</span>Dashboard</button>
+      <button data-page="students"><span class="ico">♙</span>Students</button>
+      <button data-page="results"><span class="ico">▤</span>Results</button>
+      <button data-page="upload"><span class="ico">⇧</span>Upload Results</button>
+      <button data-page="codes"><span class="ico">▣</span>Checker Codes</button>
+      <button data-page="staff"><span class="ico">♧</span>Staff</button>
+      <button data-page="settings"><span class="ico">⚙</span>Settings</button>
+    </nav>
+    <button class="nav logout" id="logoutBtn"><span class="ico">↪</span>Log Out</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><h1 id="pageTitle">Dashboard</h1><p class="muted" id="pageSubtitle">Welcome to your school portal.</p></div>
+      <div class="profile glass"><div class="avatar" id="avatar">S</div><div class="profile-details"><strong id="profileName">Staff Member</strong><div class="muted" id="profileRole">Staff</div></div></div>
+    </header>
+    <div id="pageContent"></div>
+    <div id="pageStatus" class="status" role="status"></div>
   </main>
+</div>
 
-  <script>
-    const portal = document.getElementById("portal");
-    const loginStatus = document.getElementById("login-status");
-    const registerStatus = document.getElementById("register-status");
+<script>
+(() => {
+  const SUPABASE_URL = "https://duxmngertshmwvoylcdw.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1eG1uZ2VydHNobXd2b3lsY2R3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwMTY0OTAsImV4cCI6MjEwODU5MjQ5MH0.5ag6CBBi2gHiSSojEZny3EH9Nyqs9E5TC6TEM2YzsQ8";
+  const REDIRECT_URL = "https://sinnahibrahim9-sys.github.io/jhs-school-management/";
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const $ = id => document.getElementById(id);
+  let currentUser = null, staffProfile = null, currentPage = "home";
 
-    document.getElementById("show-register").addEventListener("click", event => {
-      event.preventDefault();
-      portal.classList.add("active");
-      loginStatus.textContent = "";
-      registerStatus.textContent = "";
-    });
+  function message(id, text, error=false) {
+    $(id).textContent = text;
+    $(id).style.color = error ? "#ff9eae" : "#9fe8c4";
+  }
+  function busy(form, on) {
+    const button = form.querySelector('button[type="submit"]');
+    if(button){button.disabled=on;button.style.opacity=on?".6":"1";}
+  }
+  function showRegister(show) {
+    $("loginForm").classList.toggle("hidden",show);
+    $("registerForm").classList.toggle("hidden",!show);
+    message("authStatus","");
+  }
+  $("showRegister").onclick=()=>showRegister(true);
+  $("showLogin").onclick=()=>showRegister(false);
 
-    document.getElementById("show-login").addEventListener("click", event => {
-      event.preventDefault();
-      portal.classList.remove("active");
-      loginStatus.textContent = "";
-      registerStatus.textContent = "";
-    });
+  $("signUpForm").addEventListener("submit",async e=>{
+    e.preventDefault(); busy(e.currentTarget,true);
+    message("authStatus","Creating your account...");
+    try {
+      const {data,error}=await db.auth.signUp({
+        email:$("regEmail").value.trim(),
+        password:$("regPassword").value,
+        options:{
+          emailRedirectTo:REDIRECT_URL,
+          data:{full_name:$("regName").value.trim()}
+        }
+      });
+      if(error) throw error;
+      if(data.session) {
+        message("authStatus","Account created. Ask your portal administrator to authorise your staff account.");
+        await db.auth.signOut();
+      } else {
+        message("authStatus","Account created. Check your email to confirm it, then ask the administrator to authorise your staff account.");
+      }
+    } catch(err){message("authStatus",err.message||"Registration failed.",true);}
+    finally{busy(e.currentTarget,false);}
+  });
 
-    document.getElementById("login-form").addEventListener("submit", event => {
-      event.preventDefault();
-      loginStatus.textContent =
-        "Authentication is not connected yet. We will connect the secure login next.";
-    });
+  $("signInForm").addEventListener("submit",async e=>{
+    e.preventDefault(); busy(e.currentTarget,true);
+    message("authStatus","Verifying your account...");
+    try {
+      const {data,error}=await db.auth.signInWithPassword({
+        email:$("loginEmail").value.trim(),
+        password:$("loginPassword").value
+      });
+      if(error) throw error;
+      currentUser=data.user;
+      await verifyStaff();
+    } catch(err) {
+      message("authStatus",err.message||"Unable to sign in.",true);
+      await db.auth.signOut().catch(()=>{});
+    } finally {busy(e.currentTarget,false);}
+  });
 
-    document.getElementById("register-form").addEventListener("submit", event => {
-      event.preventDefault();
-      registerStatus.textContent =
-        "Registration is not connected yet. We will connect the database next.";
-    });
-  </script>
+  async function verifyStaff() {
+    const {data,error}=await db.from("teachers")
+      .select("full_name, role")
+      .eq("user_id",currentUser.id).maybeSingle();
+
+    if(error) throw new Error("Signed in, but staff access could not be verified. Check your teachers-table read policy.");
+    if(!data || !["admin","teacher"].includes(data.role)) {
+      await db.auth.signOut();
+      currentUser=null;
+      throw new Error("Your account is not authorised as school staff. Contact the portal administrator.");
+    }
+    staffProfile=data;
+    $("authScreen").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("profileName").textContent=data.full_name||currentUser.email;
+    $("profileRole").textContent=data.role;
+    $("sideRole").textContent=data.role==="admin"?"Super Admin":"Teacher";
+    $("avatar").textContent=(data.full_name||"S").trim().charAt(0).toUpperCase();
+    renderPage("home");
+  }
+
+  const pages={
+    home:{title:"Dashboard",subtitle:"Your school at a glance."},
+    students:{title:"Students",subtitle:"Student records and enrolment."},
+    results:{title:"Examination Results",subtitle:"Review academic results."},
+    upload:{title:"Upload Results",subtitle:"Prepare results for the school database."},
+    codes:{title:"Checker Codes",subtitle:"Manage student result-checking codes."},
+    staff:{title:"Staff Management",subtitle:"School staff and permissions."},
+    settings:{title:"Settings",subtitle:"Portal configuration and account."}
+  };
+
+  function homePage(){
+    return `<div class="notice">Your staff login is connected. Student records, result uploads and checker-code operations must be connected to verified database workflows before they can be used with real school data.</div>
+    <div class="grid">
+      <div class="stat glass"><div class="stat-icon">♙</div><p>Total Students</p><h2>—</h2></div>
+      <div class="stat glass"><div class="stat-icon">▤</div><p>Results Records</p><h2>—</h2></div>
+      <div class="stat glass"><div class="stat-icon">♧</div><p>Staff Members</p><h2>—</h2></div>
+      <div class="stat glass"><div class="stat-icon">▣</div><p>Checker Codes</p><h2>—</h2></div>
+    </div>
+    <section class="section glass">
+      <div class="section-head"><div><h2>Quick Actions</h2><p>Choose a school management task.</p></div></div>
+      <div class="cards">
+        <div class="action-card"><span>♙</span><h3>Student Records</h3><p>Open the student management section.</p><button data-go="students">Open Students</button></div>
+        <div class="action-card"><span>⇧</span><h3>Upload Results</h3><p>Prepare an examination results import.</p><button data-go="upload">Open Upload</button></div>
+        <div class="action-card"><span>▤</span><h3>View Results</h3><p>Open the results management section.</p><button data-go="results">View Results</button></div>
+        <div class="action-card"><span>▣</span><h3>Checker Codes</h3><p>Open the checker-code management section.</p><button data-go="codes">Manage Codes</button></div>
+      </div>
+    </section>
+    <section class="section glass"><h2>Account Status</h2><p class="muted">Signed in as ${escapeHtml(currentUser.email||"staff")}.</p><p class="muted">Role: ${escapeHtml(staffProfile.role)}. Your dashboard is connected to staff authentication.</p></section>`;
+  }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+  function sectionPage(page){
+    const descriptions={
+      students:"Student management will list student names, index numbers, classes and admission details.",
+      results:"The results section will display approved examination records and grades.",
+      upload:"CSV upload should validate the student index, exam year, subject, score and grade before saving records.",
+      codes:"Checker codes must be generated, validated and redeemed through restricted database operations.",
+      staff:"Only an administrator should be able to assign staff roles or change permissions.",
+      settings:"Manage school name, academic year, terms and portal preferences."
+    };
+    let extra="";
+    if(page==="upload") extra=`<label>Results CSV file<input id="csvFile" type="file" accept=".csv,text/csv"></label><p class="muted">File selection is a visual starting point only; it does not upload records yet.</p>`;
+    if(page==="settings") extra=`<label>School name<input id="schoolName" placeholder="Enter school name"></label><label>Academic year<input id="academicYear" placeholder="2026/2027"></label>`;
+    if(page==="students") extra=`<label>Search student<input id="studentSearch" placeholder="Search by name or index number"></label>`;
+    if(page==="results") extra=`<label>Exam year<input id="examYear" placeholder="2026"></label>`;
+    return `<section class="section glass"><h2>${pages[page].title}</h2><p class="muted">${descriptions[page]}</p>${extra}<div class="notice">This section is currently a user-interface placeholder. No student records, results, staff changes or checker codes will be modified here yet.</div></section>`;
+  }
+  function renderPage(page){
+    if(!pages[page])return;
+    currentPage=page;
+    $("pageTitle").textContent=pages[page].title;
+    $("pageSubtitle").textContent=pages[page].subtitle;
+    $("pageStatus").textContent="";
+    $("pageContent").innerHTML=page==="home"?homePage():sectionPage(page);
+    document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+    $("pageContent").querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>renderPage(b.dataset.go)));
+  }
+  document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>renderPage(b.dataset.page)));
+  $("logoutBtn").onclick=async()=>{
+    await db.auth.signOut();
+    currentUser=null;staffProfile=null;
+    $("app").classList.add("hidden");
+    $("authScreen").classList.remove("hidden");
+    message("authStatus","You have signed out.");
+  };
+
+  db.auth.onAuthStateChange((event,session)=>{
+    if(event==="SIGNED_OUT"){
+      currentUser=null;staffProfile=null;
+      $("app").classList.add("hidden");
+      $("authScreen").classList.remove("hidden");
+    }
+  });
+
+  async function restoreSession(){
+    const {data,error}=await db.auth.getSession();
+    if(error){message("authStatus","Could not restore your session. Please sign in again.",true);return;}
+    if(data.session){
+      currentUser=data.session.user;
+      try{await verifyStaff();}
+      catch(err){message("authStatus",err.message,true);}
+    }
+  }
+  restoreSession();
+})();
+</script>
 </body>
 </html>
